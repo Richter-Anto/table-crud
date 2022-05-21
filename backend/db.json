@@ -37,15 +37,6 @@
       "id": 5
     },
     {
-      "name": "Jelly bean a",
-      "calories": 375,
-      "fat": 0,
-      "carbs": 94,
-      "protein": 0,
-      "iron": 0,
-      "id": 6
-    },
-    {
       "name": "Lollipop",
       "calories": 392,
       "fat": 0.2,
@@ -82,21 +73,21 @@
       "id": 11
     },
     {
-      "name": "abc",
-      "calories": 4,
-      "fat": 56,
-      "carbs": 9,
-      "protein": 4,
-      "iron": 3,
+      "name": "i",
+      "calories": "l",
+      "fat": "",
+      "carbs": "",
+      "protein": "",
+      "iron": "",
       "id": 12
     },
     {
-      "name": "tt",
-      "calories": 6,
-      "fat": 6,
-      "carbs": 6,
-      "protein": 6,
-      "iron": 6,
+      "name": "m",
+      "calories": "",
+      "fat": "",
+      "carbs": "",
+      "protein": "",
+      "iron": "",
       "id": 13
     }
   ],

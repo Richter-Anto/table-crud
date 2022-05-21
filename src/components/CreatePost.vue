@@ -10,6 +10,7 @@
                 v-model.number="postData.name"
                 label="Enter Dessert name"
                 required
+                id="name"
               ></v-text-field>
             </v-col>  
             <v-col cols="12" md="4">
@@ -71,6 +72,9 @@ export default {
         iron: "",
       },
     };
+  },
+  mounted(){
+    document.getElementById("name").focus();
   },
   methods: {
       submitData: async function(){

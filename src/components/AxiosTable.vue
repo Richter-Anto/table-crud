@@ -63,12 +63,22 @@
               ><v-icon>mdi-chevron-left</v-icon></v-btn
             ></span
           >
-          <span v-for="num in [0,1,2,3]" :key="num"><span v-if="num <= totalPages" class="pages" @click="setExactPage(num)">{{ num + 1 }}</span></span>
+          <span v-for="num in [0, 1, 2, 3]" :key="num"
+            ><span
+              v-if="num <= totalPages"
+              class="pages"
+              @click="setExactPage(num)"
+              >{{ num + 1 }}</span
+            ></span
+          >
           <span
             ><v-btn elevation="0" color="#fff" @click="pageIncrement"
               ><v-icon>mdi-chevron-right</v-icon></v-btn
             ></span
           >
+        </span>
+        <span>
+          Skip to page number : <input type="text" id="skipPage" v-model.number="skipPage" style="border: 1px solid black; width: 20px; text-align: center; border-radius: 4px; background-color: rgb(250, 248, 245);">
         </span>
         <v-spacer></v-spacer>
         <span>Rows per page:</span>
@@ -111,12 +121,12 @@ export default {
   async mounted() {
     this.posts = (await Axios.get("/posts")).data;
     this.headers = (await Axios.get("/headers")).data;
-    this.totalPages = Math.floor(this.posts.length / this.setOfPages);
+    this.totalPages = Math.ceil(this.posts.length / this.setOfPages) - 1;
   },
-  updated(){
+  updated() {
     console.log("updated");
     let pages = document.getElementsByClassName("pages");
-    for(let i=0 ; i< pages.length; i++){
+    for (let i = 0; i < pages.length; i++) {
       pages[i].classList.remove("currentPage");
     }
     pages[this.currentPage].classList.add("currentPage");
@@ -129,12 +139,33 @@ export default {
       allSetOfPages: [5, 10, 15, "all"],
       currentPage: 0,
       totalPages: 0,
+      skipPage: "",
     };
   },
+    watch: {
+  //     totalPages: function(){
+  // if(this.totalPages < this.currentPage){
+  //         console.log("in");
+  //         --this.currentPage;
+  //       }
+  //     },
+  skipPage: function(){
+    if(this.skipPage-1 <= this.totalPages && this.skipPage-1 >= 0){
+    this.currentPage = (this.skipPage - 1)
+    // this.skipPage = ""
+    }
+  },
+    },
   methods: {
     deleting: async function (id) {
       await Axios.delete(`/posts/${id}`);
       this.posts = (await Axios.get("/posts")).data;
+      this.totalPages = Math.ceil(this.posts.length / this.setOfPages) - 1;
+        //This condition can also be written inside " watch " property as well.
+      if (this.totalPages < this.currentPage) {
+        --this.currentPage;
+      }
+
       this.$vToastify.success("successfully deleted");
     },
     editing: function (id) {
@@ -147,7 +178,7 @@ export default {
       } else {
         this.setOfPages = oneSet;
         this.currentPage = 0;
-        this.totalPages = Math.floor(this.posts.length / this.setOfPages);
+        this.totalPages = Math.ceil(this.posts.length / this.setOfPages) - 1;
       }
     },
     pageIncrement: function () {
@@ -171,9 +202,9 @@ export default {
         else return a[header] < b[header] ? 1 : -1;
       });
     },
-    setExactPage(num){
+    setExactPage(num) {
       this.currentPage = num;
-    }
+    },
   },
 };
 </script>
@@ -192,14 +223,14 @@ export default {
 .rotateIcon {
   transform: rotate(180deg);
 }
-.pages{
+.pages {
   padding: 10px;
   border-radius: 50%;
 }
-.pages:hover{
+.pages:hover {
   background-color: gray;
 }
-.currentPage{
+.currentPage {
   background-color: brown;
 }
 </style>
